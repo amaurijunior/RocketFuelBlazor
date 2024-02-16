@@ -1,0 +1,441 @@
+﻿@page "/"
+
+<PageTitle>Rocket Fuel Calculator</PageTitle>
+<div class="page-background-class">
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <select class="select" @onchange="@DistanceChange" style="margin-top:15%">
+                    @for (int i = 1; i <= 18; i++)
+                    {
+                        int value = i * 10000;
+                        <option value="@value">@value Km</option>
+                    }
+                </select>
+            </div>
+            <div class="col text-center">
+                <div class="row">
+                    <div class="col text-center">
+                        @if (EngineType == EEngineType.Steam)
+                        {
+                            <img src="./resources/Building_Steam_Engine.webp" alt="Imagem 1" />
+                        }
+                        else if (EngineType == EEngineType.Petroleum)
+                        {
+                            <img src="./resources/Petroleum_Engine.webp" alt="Imagem 2" />
+                        }
+                        else if (EngineType == EEngineType.Hydrogen)
+                        {
+                            <img src="./resources/Building_Hydrogen_Engine.webp" alt="Imagem 3" />
+                        }
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col text-center">
+                        <select class ="select" @onchange="@EngineTypeChange">
+                            <option value="Steam">Steam</option>
+                            <option value="Petroleum">Petroleum</option>
+                            <option value="Hydrogen">Hydrogen</option>
+                        </select>
+                    </div>
+                </div>      
+            </div>
+            <div class="col text-center">
+                <div class="row">
+                    <div class="col text-center">
+                        @if (Lox == false)
+                        {
+                            <img src="./resources/Building_Solid_Oxidizer_Tank.webp" alt="Imagem 1" />
+                        }
+                        else if (Lox == true)
+                        {
+                            <img src="./resources/Building_Liquid_Oxidizer_Tank.webp" alt="Imagem 2" />
+                        }
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col ">
+                        <select class="select" @onchange="@OxidizerChange">
+                            <option value="false">Oxylite</option>
+                            <option value="true">LOX</option>
+                        </select>
+                    </div>
+                </div>
+                
+            </div>
+        </div>   
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <div class="row">
+                    <div class="col">
+                        <img src="./resources/Building_Research_Module.webp" alt="Imagem" />
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col">
+                        <input type="number" @onchange="ResearchChange" min="0" max="100" style="width:65%" />
+                    </div>
+                </div>
+            </div>
+            <div class="col text-center">
+                <div class="row">
+                    <div class="col">
+                        <img src="./resources/Building_Cargo_Bay.webp" alt="Imagem" />
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col">
+                        <input type="number" @onchange="CargoChange" min="0" max="100" style="width:65%" />
+                    </div>
+                </div>
+            </div>
+            <div class="col text-center">
+                <div class="row">
+                    <div class="col">
+                        <img src="./resources/Building_Solid_Fuel_Thruster.webp" alt="Imagem" />
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col">
+                        <input type="number" @onchange="SolidBoosterChange" min="0" max="100" style="width:65%" />
+                    </div>
+                </div>
+            </div>
+            <div class="col text-center">
+                <div class="row">
+                    <div class="col">
+                        <img src="./resources/Building_Sight-Seeing_Module.webp" alt="Imagem" />
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col">
+                        <input type="number" @onchange="SightSeeChange" min="0" max="100" style="width:65%" />
+                    </div>
+                </div>
+            </div>    
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <div class="row">
+                    <div class="col text-center">
+                        @if (EngineType == EEngineType.Steam)
+                        {
+                            <img src="./resources/Steam.webp" alt="Imagem 1" />
+                        }
+                        else if (EngineType == EEngineType.Petroleum)
+                        {
+                            <img src="./resources/Petroleum.webp" alt="Imagem 2" />
+                        }
+                        else if (EngineType == EEngineType.Hydrogen)
+                        {
+                            <img src="./resources/Liquid_Hydrogen.webp" alt="Imagem 3" />
+                        }
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col text-center">
+                        <h4>@rocket.FuelMass Kg</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col text-center">
+                <div class="row">
+                    <div class="col text-center">
+                        @if (Lox == false)
+                        {
+                            <img class="icon" src="./resources/Oxylite.webp" alt="Imagem 1" />
+                        }
+                        else if (Lox == true)
+                        {
+                            <img class ="icon" src="./resources/Liquid_Oxygen.webp" alt="Imagem 2" />
+                        }
+                    </div>
+                    <div class="w-100"></div>
+                    <div class="col text-center">
+                        @if (EngineType != EEngineType.Steam)
+                        {
+                            <h4>@rocket.FuelMass Kg</h4>
+                        }
+                        else
+                        {
+                            <h4>0 Kg</h4>
+                        }   
+                    </div>
+                </div>
+            </div>
+            <div class="col text-center">
+                <div class="col">
+                    <img src="./resources/Building_Liquid_Fuel_Tank.webp" alt="Imagem 1" />
+                </div>
+                <div class="w-100"></div>
+                <div class="col">
+                    <h3>@rocket.FuelTanks</h3>
+                </div>
+            </div>
+            <div class="col text-center">
+                <div class="col">
+                    @if (Lox == false)
+                    {
+                        <img src="./resources/Building_Solid_Oxidizer_Tank.webp" alt="Imagem 1" />
+                    }
+                    else if (Lox == true)
+                    {
+                        <img src="./resources/Building_Liquid_Oxidizer_Tank.webp" alt="Imagem 2" />
+                    }
+                </div>
+                <div class="w-100"></div>
+                <div class="col">
+                    <h3>@rocket.OxidizerTanks</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-2 text-center">
+        @if(rocket.IsReacheble)
+        {
+            <h2 style="border:1px solid; background-color:forestgreen;">
+                Reachable
+            </h2>
+        }
+        else
+        {
+                <h2 style="border:1px solid;background-color:darkred;">
+                Unreachable
+            </h2>
+        }
+        </div>
+    </div>
+</div>
+
+@code{
+    Rocket rocket { get; set; } = new Rocket();
+
+    private double Distance { get; set; } = 10000;
+
+    private EEngineType EngineType { get; set; } = EEngineType.Steam;
+
+    private double SolidBoosters { get; set; } = 0;
+
+    private bool Lox { get; set; }
+
+    public double Cargo { get; set; } = 0;
+
+    public double Research { get; set; } = 0;
+
+    public double SightSee { get; set; } = 0;
+
+    private void DistanceChange(ChangeEventArgs e)
+    {
+        Distance = !string.IsNullOrEmpty(e.Value.ToString()) ? double.Parse(e.Value.ToString()) : 10000;
+        Calculate(Distance, EngineType, SolidBoosters, Lox, Cargo, Research, SightSee);
+    }
+
+    private void EngineTypeChange(ChangeEventArgs e)
+    {
+        EngineType = !string.IsNullOrEmpty(e.Value.ToString()) ? Enum.Parse<EEngineType>(e.Value.ToString(), true) : 0;
+
+        if (EngineType == EEngineType.Steam)
+            Lox = false;
+
+        Calculate(Distance, EngineType, SolidBoosters, Lox, Cargo, Research, SightSee);
+    }
+
+    private void SolidBoosterChange(ChangeEventArgs e)
+    {
+        SolidBoosters = !string.IsNullOrEmpty(e.Value.ToString()) ? double.Parse(e.Value.ToString()) : 0;
+        Calculate(Distance, EngineType, SolidBoosters, Lox, Cargo, Research, SightSee);
+    }
+
+    private void OxidizerChange(ChangeEventArgs e)
+    {
+        Lox = !string.IsNullOrEmpty(e.Value.ToString()) ? bool.Parse(e.Value.ToString()) : false;
+        Calculate(Distance, EngineType, SolidBoosters, Lox, Cargo, Research, SightSee);
+    }
+
+    private void CargoChange(ChangeEventArgs e)
+    {
+        Cargo = !string.IsNullOrEmpty(e.Value.ToString()) ? double.Parse(e.Value.ToString()) : 0;
+        Calculate(Distance, EngineType, SolidBoosters, Lox, Cargo, Research, SightSee);
+    }
+
+    private void ResearchChange(ChangeEventArgs e)
+    {
+        Research = !string.IsNullOrEmpty(e.Value.ToString()) ? double.Parse(e.Value.ToString()) : 0;
+        Calculate(Distance, EngineType, SolidBoosters, Lox, Cargo, Research, SightSee);
+    }
+
+    private void SightSeeChange(ChangeEventArgs e)
+    {
+        SightSee = !string.IsNullOrEmpty(e.Value.ToString()) ? double.Parse(e.Value.ToString()) : 0;
+        Calculate(Distance, EngineType, SolidBoosters, Lox, Cargo, Research, SightSee);
+    }
+
+    private void Calculate(double distance = 10000, EEngineType engineType = EEngineType.Steam, double solidBoosters = 0, bool lox = false, double cargoBays = 0, double researchModules = 0, double sightseeingModules = 0)
+    {
+
+        bool autoTanks = true;
+        bool isReacheable = true;
+
+        double commandCapsule = 1;
+
+        double baseDryMass = 200 * commandCapsule;
+        double fuelEfficiency = 0;
+        double baseWetMass = 0;
+        double baseRange = 12000 * solidBoosters;
+
+        double fuelTanks = 1;
+        double oxidizerTanks = 1;
+
+        double wetMass = 0;
+        double totalMass = 0;
+        double fuelMass = 0;
+
+
+        if (engineType == EEngineType.Steam)
+        {
+            autoTanks = false;
+            fuelTanks = 0;
+            oxidizerTanks = 0;
+        }
+
+        baseDryMass = CalculateEnginesBaseDryMass(engineType, baseDryMass);
+
+        fuelEfficiency = CalculateFuelEfficiency(engineType, fuelEfficiency, lox);
+
+        baseDryMass = CalculateModulesBaseDryMass(baseDryMass, solidBoosters, cargoBays, researchModules, sightseeingModules);
+
+        var dryMass = baseDryMass + fuelTanks * 100 + oxidizerTanks * 100;
+
+        var estimatedRangePenalty = Math.Max(dryMass + baseWetMass, Math.Pow(((dryMass + baseWetMass) / 300), 3.2));
+        var x = engineType == EEngineType.Steam ? 0 : 1;
+        fuelMass = Math.Ceiling((distance + estimatedRangePenalty - baseRange) / (fuelEfficiency - 1 - x));
+
+        if (fuelMass < 0)
+            fuelMass = 0;
+
+        wetMass = calculateWetMass(engineType, wetMass, baseWetMass, fuelMass);
+
+        double rangePenalty = 0;
+        double achivedRange = 0;
+        fuelMass -= 1;
+
+        do
+        {
+            fuelMass++;
+            if (engineType == EEngineType.Steam)
+            {
+                if (fuelMass > 900)
+                {
+                    achivedRange = -1;
+                    break;
+                }
+                wetMass = baseWetMass + fuelMass;
+            }
+            else
+            {
+                if (autoTanks)
+                {
+                    fuelTanks = Math.Ceiling(fuelMass / 900);
+                    oxidizerTanks = Math.Ceiling(fuelMass / 2700);
+                }
+                wetMass = baseWetMass + fuelMass * 2;
+            }
+            dryMass = baseDryMass + fuelTanks * 100 + oxidizerTanks * 100;
+
+            totalMass = dryMass + wetMass;
+            rangePenalty = Math.Max(totalMass, Math.Pow((totalMass / 300), 3.2));
+            achivedRange = baseRange + fuelMass * fuelEfficiency - rangePenalty;
+            if (engineType != EEngineType.Steam && fuelMass > fuelTanks * 900)
+            {
+                achivedRange = -1;
+                break;
+            }
+        } while (achivedRange < distance && (achivedRange > 0 || fuelMass < 9000));
+
+        rocket.update(fuelMass, (int)fuelTanks, (int)oxidizerTanks, achivedRange >= distance);
+    }
+
+    double CalculateEnginesBaseDryMass(EEngineType type, double baseDryMass)
+    {
+        switch (type)
+        {
+            case EEngineType.Steam:
+                return baseDryMass += 2000;
+                break;
+            case EEngineType.Petroleum:
+                return baseDryMass += 200;
+                break;
+            case EEngineType.Hydrogen:
+                return baseDryMass += 500;
+                break;
+        }
+
+        return 0;
+    }
+
+    double CalculateModulesBaseDryMass(double baseDryMass, double solidBoosters, double cargoBays, double researchModules, double sightseeingModules)
+    {
+        baseDryMass += solidBoosters * 1000;
+        baseDryMass += cargoBays * 2000;
+        baseDryMass += researchModules * 200;
+        baseDryMass += sightseeingModules * 200;
+
+        return baseDryMass;
+    }
+
+    double calculateWetMass(EEngineType type, double wetMass, double baseWetMass, double fuelMass)
+    {
+        if (type == EEngineType.Steam)
+            wetMass = baseWetMass + fuelMass;
+        else
+            wetMass = baseWetMass + (fuelMass * 2);
+
+        return wetMass;
+    }
+
+    double CalculateFuelEfficiency(EEngineType type, double fuelEfficiency, bool lox)
+    {
+        if (type == EEngineType.Steam)
+            fuelEfficiency = 20;
+        if (type == EEngineType.Petroleum)
+            fuelEfficiency = 40;
+        if (type == EEngineType.Hydrogen)
+            fuelEfficiency = 60;
+
+        if (lox)
+            fuelEfficiency = fuelEfficiency * 1.33;
+
+        return fuelEfficiency;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Calculate();
+    }
+
+    public enum EEngineType
+    {
+        Steam = 1,
+        Petroleum = 2,
+        Hydrogen = 3
+    }
+
+    public class Rocket{
+
+        public Rocket()
+        {
+        }
+
+        public void update(double fuelMass, int fuelTanks, int oxidizerTanks, bool isReacheble)
+        {
+            FuelMass = fuelMass;
+            FuelTanks = fuelTanks;
+            OxidizerTanks = oxidizerTanks;
+            IsReacheble = isReacheble;
+        }
+
+        public double FuelMass { get; set; }
+        public int FuelTanks { get; set; }
+        public int OxidizerTanks { get; set; }
+        public bool IsReacheble { get; set; }
+    }
+}
