@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row">
             <div class="col text-center">
-                <select class="select" @onchange="@DistanceChange" style="margin-top:15%">
+                <select class="select" @onchange="@DistanceChange" style="margin-top:15%;height: 20%;">
                     @for (int i = 1; i <= 18; i++)
                     {
                         int value = i * 10000;
@@ -32,7 +32,7 @@
                     </div>
                     <div class="w-100"></div>
                     <div class="col text-center">
-                        <select class ="select" @onchange="@EngineTypeChange">
+                        <select class="select" @onchange="@EngineTypeChange" style="height: 150%;">
                             <option value="Steam">Steam</option>
                             <option value="Petroleum">Petroleum</option>
                             <option value="Hydrogen">Hydrogen</option>
@@ -54,7 +54,7 @@
                     </div>
                     <div class="w-100"></div>
                     <div class="col ">
-                        <select class="select" @onchange="@OxidizerChange">
+                        <select class="select" @onchange="@OxidizerChange" style="height: 150%;">
                             <option value="false">Oxylite</option>
                             <option value="true">LOX</option>
                         </select>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="w-100"></div>
                     <div class="col">
-                        <input type="number" @onchange="ResearchChange" min="0" max="100" style="width:65%" />
+                        <input type="number" @onchange="ResearchChange" min="0" max="100" style="width:65%" placeholder="0"/>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@
                     </div>
                     <div class="w-100"></div>
                     <div class="col">
-                        <input type="number" @onchange="CargoChange" min="0" max="100" style="width:65%" />
+                        <input type="number" @onchange="CargoChange" min="0" max="100" style="width:65%" placeholder="0" />
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                     </div>
                     <div class="w-100"></div>
                     <div class="col">
-                        <input type="number" @onchange="SolidBoosterChange" min="0" max="100" style="width:65%" />
+                        <input type="number" @onchange="SolidBoosterChange" min="0" max="100" style="width:65%" placeholder="0"/>
                     </div>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                     </div>
                     <div class="w-100"></div>
                     <div class="col">
-                        <input type="number" @onchange="SightSeeChange" min="0" max="100" style="width:65%" />
+                        <input type="number" @onchange="SightSeeChange" min="0" max="100" style="width:65%" placeholder="0" />
                     </div>
                 </div>
             </div>    
@@ -134,7 +134,14 @@
                     </div>
                     <div class="w-100"></div>
                     <div class="col text-center">
-                        <h4>@rocket.FuelMass Kg</h4>
+                        @if(rocket.IsReacheble)
+                        {
+                            <h4>@rocket.FuelMass Kg</h4>
+                        }
+                        else
+                        {
+                            <h4>0 Kg</h4>
+                        }
                     </div>
                 </div>
             </div>
@@ -152,7 +159,7 @@
                     </div>
                     <div class="w-100"></div>
                     <div class="col text-center">
-                        @if (EngineType != EEngineType.Steam)
+                        @if (EngineType != EEngineType.Steam && rocket.IsReacheble)
                         {
                             <h4>@rocket.FuelMass Kg</h4>
                         }
@@ -189,7 +196,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-2 text-center">
+        <div class="col-12 text-center" style="word-wrap: break-word">
         @if(rocket.IsReacheble)
         {
             <h2 style="border:1px solid; background-color:forestgreen;">
