@@ -2,8 +2,8 @@
 {
     public enum EEngineType
     {
-        Steam = 1,
-        Petroleum = 2,
-        Hydrogen = 3
+        Steam = 20,
+        Petroleum = 40,
+        Hydrogen = 60
     }
 }

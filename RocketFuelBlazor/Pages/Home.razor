@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using RocketFuelBlazor.Entities
 @using RocketFuelBlazor.Enums
+@using RocketFuelBlazor.Constants
 
 <PageTitle>Rocket Fuel Calculator</PageTitle>
 <div class="page-background-class">
@@ -284,12 +285,10 @@
         bool autoTanks = true;
         bool isReacheable = true;
 
-        double commandCapsule = 1;
-
-        double baseDryMass = 200 * commandCapsule;
+        double baseDryMass = BaseDryMassContants.BASE_DRY_MASS;
         double fuelEfficiency = 0;
         double baseWetMass = 0;
-        double baseRange = 12000 * solidBoosters;
+        double baseRange = GeneralConstants.BASE_RANGE_MULTIPLIER * solidBoosters;
 
         double fuelTanks = 1;
         double oxidizerTanks = 1;
@@ -368,25 +367,25 @@
         switch (type)
         {
             case EEngineType.Steam:
-                return baseDryMass += 2000;
+                baseDryMass += BaseDryMassContants.STEAM_ENGINE_DRY_MASS;
                 break;
             case EEngineType.Petroleum:
-                return baseDryMass += 200;
+                baseDryMass += BaseDryMassContants.PETROLEUM_ENGINE_DRY_MASS;
                 break;
             case EEngineType.Hydrogen:
-                return baseDryMass += 500;
+                baseDryMass += BaseDryMassContants.HYDROGEN_ENGINE_DRY_MASS;
                 break;
         }
 
-        return 0;
+        return baseDryMass;
     }
 
     double CalculateModulesBaseDryMass(double baseDryMass, double solidBoosters, double cargoBays, double researchModules, double sightseeingModules)
     {
-        baseDryMass += solidBoosters * 1000;
-        baseDryMass += cargoBays * 2000;
-        baseDryMass += researchModules * 200;
-        baseDryMass += sightseeingModules * 200;
+        baseDryMass += solidBoosters * BaseDryMassContants.SOLID_BOOSTERS_DRY_MASS;
+        baseDryMass += cargoBays * BaseDryMassContants.CARGO_BAYS_DRY_MASS;
+        baseDryMass += researchModules * BaseDryMassContants.RESEARCH_MODULES_DRY_MASS;
+        baseDryMass += sightseeingModules * BaseDryMassContants.SIGHT_SEE_DRY_MASS;
 
         return baseDryMass;
     }
@@ -403,12 +402,7 @@
 
     double CalculateFuelEfficiency(EEngineType type, double fuelEfficiency, bool lox)
     {
-        if (type == EEngineType.Steam)
-            fuelEfficiency = 20;
-        if (type == EEngineType.Petroleum)
-            fuelEfficiency = 40;
-        if (type == EEngineType.Hydrogen)
-            fuelEfficiency = 60;
+        fuelEfficiency = (int)type;
 
         if (lox)
             fuelEfficiency = fuelEfficiency * 1.33;
